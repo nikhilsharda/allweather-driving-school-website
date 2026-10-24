@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+/* One theme per page, driven by the visitor's system setting.
+   Shape rule: buttons are full pills, cards 24px, inputs 12px. One accent: highway amber. */
+:root {
+  --bg: #f2f4f3;
+  --surface: #ffffff;
+  --surface-2: #e7ebea;
+  --line: rgb(15 21 23 / 0.1);
+  --text: #0f1517;
+  --muted: #4f5c60;
+  --accent: #f2bf00;
+  --accent-ink: #15110a;
+  --accent-text: #7a5600;
+  --shadow: 0 24px 60px -30px rgb(30 50 55 / 0.35);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d1012;
+    --surface: #151a1d;
+    --surface-2: #1c2326;
+    --line: rgb(255 255 255 / 0.09);
+    --text: #eef1f0;
+    --muted: #9ba7aa;
+    --accent: #f5c400;
+    --accent-ink: #15110a;
+    --accent-text: #f5c400;
+    --shadow: 0 30px 70px -30px rgb(0 0 0 / 0.7);
+  }
+}
+
+@theme inline {
+  --font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono Variable", ui-monospace, monospace;
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface2: var(--surface-2);
+  --color-line: var(--line);
+  --color-ink: var(--text);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-text: var(--accent-text);
+}
+
+html { scroll-behavior: smooth; scroll-padding-top: 96px; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+::selection { background: var(--accent); color: var(--accent-ink); }
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 8px; }
+
+/* Moving lane markings, transform only */
+@keyframes lane { to { transform: translateY(-48px); } }
+.lane-dash {
+  background: repeating-linear-gradient(to bottom, var(--accent) 0 24px, transparent 24px 48px);
+  animation: lane 1.2s linear infinite;
+}
+@keyframes fall { to { transform: translate3d(var(--dx, 0px), 110%, 0); } }
+@keyframes drift { 0% { transform: translateX(-8%); } 100% { transform: translateX(8%); } }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .lane-dash, [data-fx] { animation: none !important; }
+}
+
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+@keyframes laneh { to { transform: translateX(-48px); } }
+.lane-h {
+  background: repeating-linear-gradient(to right, var(--accent) 0 24px, transparent 24px 48px);
+  animation: laneh 1.2s linear infinite;
+}
