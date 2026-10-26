@@ -24,7 +24,9 @@ Any static host works too: serve `dist/` and rewrite all routes to `index.html`.
 
 ## Before you switch the domain over
 
-- **Forms.** `src/submit.js` posts to `VITE_FORM_ENDPOINT` (Web3Forms, Formspree or similar) when set. When it is not set, the forms open a pre-filled email to the school office, so nothing is lost, but it is not one-click. Set the endpoint before launch.
+- **Zoho CRM leads.** Both forms (registration and contact) create a Lead in Zoho CRM through Web-to-Lead. In Zoho CRM go to Setup > Developer Space > Web Forms, create a form on the Leads module with First Name, Last Name, Email, Phone, Street, City, State, Zip Code, Country and Description, **turn CAPTCHA off** (the site has a hidden honeypot field), click Generate form code, and copy the hidden `xnQsjsdp` and `xmIwtLD` values and the form's action host into the `VITE_ZOHO_*` variables in `.env.example`. Registration details (course, start date, payment method, notes) go into the Lead's Description. If Zoho cannot be reached, the form falls back to a pre-filled email to the office. Test one submission of each form before launch and confirm the Lead appears.
+- **Google Analytics 4.** Set `VITE_GA_MEASUREMENT_ID` (the `G-XXXXXXXXXX` ID) at build time. The site sends a `page_view` on every page change and these events: `generate_lead` (form submitted, with form name and course), `registration_step`, `click_phone`, `click_email`, `click_signup` and `click_social`. Mark `generate_lead` as a key event in GA4. If the site needs a cookie-consent banner (for example for Quebec visitors), gate `initAnalytics()` in `src/analytics.js` on consent.
+- **Optional email copy.** `VITE_FORM_ENDPOINT` and `VITE_FORM_ACCESS_KEY` (Web3Forms or Formspree) can also email each submission to the office. It is skipped if the key is missing.
 - **Old WordPress files.** Two links still point at the current site and will break when WordPress is retired. Download these PDFs, add them to `public/docs/`, and update `THEORY_2026` and `THEORY_2027` in `src/data.js`:
   - `/wp-content/uploads/2026/07/GLP-Calender-July-23-2026.pdf`
   - `/wp-content/uploads/2026/07/GLP-Classroom-Dates-2027.pdf`

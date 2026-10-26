@@ -6,6 +6,7 @@ import { PageHero } from "../components/Page";
 import { Field, inputCls } from "../components/Field";
 import { COURSES, PAY_EMAIL, PHONE } from "../data";
 import { submitForm } from "../submit";
+import { track } from "../analytics";
 import { ease } from "../ui";
 
 const STEPS = ["Course", "About you", "Address", "Start and payment", "Review"];
@@ -64,7 +65,7 @@ export default function Register() {
   const set = (k) => (e) => { setD((p) => ({ ...p, [k]: e.target.value })); if (errors[k]) setErrors((x) => ({ ...x, [k]: undefined })); };
   const pick = (patch) => { setD((p) => ({ ...p, ...patch })); setErrors({}); };
 
-  const go = (to) => { setDir(to > step ? 1 : -1); setStep(to); window.scrollTo({ top: 120, behavior: reduce ? "auto" : "smooth" }); };
+  const go = (to) => { setDir(to > step ? 1 : -1); setStep(to); track("registration_step", { step_number: to + 1, step_name: STEPS[to] }); window.scrollTo({ top: 120, behavior: reduce ? "auto" : "smooth" }); };
   const next = () => {
     const e = validate(step, d);
     setErrors(e);
@@ -82,7 +83,14 @@ export default function Register() {
     if (d.website) return; // honeypot
     setState("sending"); setFailed(false);
     try {
-      const r = await submitForm({ subject: `Student registration: ${fields.Name} (${course.title})`, fields });
+      const r = await submitForm({
+        subject: `Student registration: ${fields.Name} (${course.title})`, fields, form: "registration", course: course.title,
+        lead: {
+          first: d.first.trim(), last: d.last.trim(), email: d.email.trim(), phone: d.phone.trim(),
+          street: [d.street, d.line2].filter(Boolean).join(", "), city: d.city, state: d.province, zip: d.postal.toUpperCase(), country: "Canada",
+          description: `STUDENT REGISTRATION\nCourse: ${course.title} (${course.price} ${course.sub})\nStart date: ${fields["Start date"]}\nPayment method: ${d.payment}${d.notes ? `\nNotes: ${d.notes}` : ""}`,
+        },
+      });
       setResult(r); setState("done");
       try { localStorage.removeItem(KEY); } catch {}
     } catch { setFailed(true); setState("form"); }

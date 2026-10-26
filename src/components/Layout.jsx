@@ -6,9 +6,11 @@ import { CaretDown, List, X, Phone, EnvelopeSimple, MapPin, LinkedinLogo, Instag
 import Logo from "../Logo";
 import { ADDRESS, EMAIL, NAV, PHONE, REGISTER, SOCIAL, SITE, THEORY_2026, THEORY_2027 } from "../data";
 import { ease } from "../ui";
+import { pageview } from "../analytics";
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
+  useEffect(() => { pageview(pathname + (hash || "")); }, [pathname]);
   useEffect(() => {
     if (hash) {
       const el = document.getElementById(hash.slice(1));

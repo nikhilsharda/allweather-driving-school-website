@@ -28,7 +28,9 @@ export default function Contact() {
     if (Object.keys(x).length || d.website) return;
     setState("sending");
     try {
-      const r = await submitForm({ subject: `Website message from ${d.first} ${d.last}${d.topic ? `: ${d.topic}` : ""}`, fields: { Name: `${d.first} ${d.last}`, Email: d.email, Topic: d.topic, Message: d.message } });
+      const r = await submitForm({ subject: `Website message from ${d.first} ${d.last}${d.topic ? `: ${d.topic}` : ""}`, fields: { Name: `${d.first} ${d.last}`, Email: d.email, Topic: d.topic, Message: d.message },
+        form: "contact", course: d.topic,
+        lead: { first: d.first.trim(), last: d.last.trim(), email: d.email.trim(), description: `WEBSITE ENQUIRY${d.topic ? ` (${d.topic})` : ""}\n${d.message}` } });
       setRes(r); setState("done");
     } catch { setState("form"); setErr({ message: `Could not send. Please email ${EMAIL} or call ${PHONE}.` }); }
   };
