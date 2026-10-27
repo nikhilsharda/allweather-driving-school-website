@@ -16,6 +16,7 @@ import Advice from "./pages/Advice";
 import Glp from "./pages/Glp";
 import Testing from "./pages/Testing";
 import Blog from "./pages/Blog";
+import GlpCalendar from "./pages/GlpCalendar";
 import Register from "./pages/Register";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
@@ -39,6 +40,7 @@ export default function App() {
           <Route path="license-classes-in-b-c" element={<Licence />} />
           <Route path="driving-advice" element={<Advice />} />
           <Route path="glp-info" element={<Glp />} />
+          <Route path="glp-theory-calendar" element={<GlpCalendar />} />
           <Route path="testing-advice" element={<Testing />} />
           <Route path="brush-up-on-motorcycle-safety-before-hitting-the-road" element={<Blog />} />
           <Route path="student-registration" element={<Register />} />

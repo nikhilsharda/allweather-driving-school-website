@@ -12,6 +12,7 @@ export const NAV = [
     { label: "Motorcycle Training", to: "/motorcycle-training" }, { label: "Our Competitors", to: "/our-competitors" } ] },
   { label: "Resources", items: [
     { label: "License Classes in B.C.", to: "/license-classes-in-b-c" }, { label: "GLP Info", to: "/glp-info" }, { label: "Testing Advice", to: "/testing-advice" },
+    { label: "GLP Theory Calendar", to: "/glp-theory-calendar" },
     { label: "Driving Advice", to: "/driving-advice" }, { label: "FAQ", to: "/faq" }, { label: "Road Safety Myths", to: "/faq/road-safety-myths" },
     { label: "Fun Driving & Car Facts", to: "/faq/fun-driving-car-facts" }, { label: "Blogs & News", to: "/brush-up-on-motorcycle-safety-before-hitting-the-road" } ] },
   { label: "Contact Us", to: "/contact-us" },
@@ -120,8 +121,8 @@ export const SOCIAL = {
   instagram: "https://www.instagram.com/allweatherdrivingschool/",
 };
 export const PAY_EMAIL = "ap@allweatherdrivingschool.com";
-export const THEORY_2026 = `${SITE}/wp-content/uploads/2026/07/GLP-Calender-July-23-2026.pdf`;
-export const THEORY_2027 = `${SITE}/wp-content/uploads/2026/07/GLP-Classroom-Dates-2027.pdf`;
+export const THEORY_2026 = "/docs/glp-theory-dates-2026.pdf";
+export const THEORY_2027 = "/docs/glp-theory-dates-2027.pdf";
 
 export const COURSES = [
   { id: "glp", title: "GLP driving course", price: "$1,750", sub: "tax exempt", text: "18 hours of theory, 14 hours in the car, road test car included. Two high school credits.", icon: "steering" },
@@ -272,3 +273,40 @@ export const COMPARE = [
   { label: "Motorcycle training", us: "One on one with bike-to-bike Bluetooth", them: "Group lessons are common" },
   { label: "Manual transmission", us: "Specialist instructors", them: "Not offered everywhere" },
 ];
+
+/* GLP in-class theory courses. t: "d" = three full days (9:45 AM to 4:30 PM), "e" = six evenings (5:30 to 9:00 PM).
+   d: class dates in order, full: course is full. Source: school schedules sent October 2026 (2026) and 2027. */
+const D = (t, d, full = false) => ({ t, d, full });
+export const THEORY = {
+  2026: [
+    D("d", ["2025-12-30", "2026-01-02", "2026-01-03"], true), D("d", ["2026-01-10", "2026-01-17", "2026-01-24"], true),
+    D("d", ["2026-02-21", "2026-02-28", "2026-03-07"], true), D("d", ["2026-03-17", "2026-03-18", "2026-03-19"], true),
+    D("d", ["2026-03-24", "2026-03-25", "2026-03-26"], true), D("d", ["2026-04-11", "2026-04-18", "2026-04-25"], true),
+    D("e", ["2026-04-01", "2026-04-08", "2026-04-15", "2026-04-22", "2026-04-29", "2026-05-06"], true),
+    D("d", ["2026-05-30", "2026-06-06", "2026-06-13"], true), D("d", ["2026-07-07", "2026-07-08", "2026-07-09"], true),
+    D("d", ["2026-07-21", "2026-07-22", "2026-07-23"], true), D("d", ["2026-08-04", "2026-08-05", "2026-08-06"], true),
+    D("d", ["2026-08-18", "2026-08-19", "2026-08-20"], true), D("d", ["2026-09-12", "2026-09-19", "2026-09-26"], true),
+    D("e", ["2026-09-16", "2026-09-23", "2026-10-07", "2026-10-14", "2026-10-21", "2026-10-28"], true),
+    D("d", ["2026-11-07", "2026-11-14", "2026-11-21"], true),
+    D("e", ["2026-11-10", "2026-11-18", "2026-11-25", "2026-12-02", "2026-12-09", "2026-12-16"]),
+    D("d", ["2026-12-28", "2026-12-29", "2026-12-30"]),
+  ],
+  2027: [
+    D("d", ["2027-01-10", "2027-01-17", "2027-01-24"]), D("d", ["2027-02-21", "2027-02-28", "2027-03-07"]),
+    D("d", ["2027-03-16", "2027-03-17", "2027-03-18"]), D("d", ["2027-03-23", "2027-03-24", "2027-03-25"]),
+    D("d", ["2027-04-04", "2027-04-11", "2027-04-18"]),
+    D("e", ["2027-04-07", "2027-04-14", "2027-04-21", "2027-04-28", "2027-05-05", "2027-05-12"]),
+    D("d", ["2027-05-30", "2027-06-06", "2027-06-13"]), D("d", ["2027-07-06", "2027-07-07", "2027-07-08"]),
+    D("d", ["2027-07-20", "2027-07-21", "2027-07-22"]), D("d", ["2027-08-10", "2027-08-11", "2027-08-12"]),
+    D("d", ["2027-08-24", "2027-08-25", "2027-08-26"]), D("d", ["2027-09-12", "2027-09-19", "2027-09-26"]),
+    D("e", ["2027-09-15", "2027-09-22", "2027-09-29", "2027-10-06", "2027-10-13", "2027-10-20"]),
+    D("d", ["2027-10-17", "2027-10-24", "2027-10-31"]), D("d", ["2027-11-14", "2027-11-21", "2027-11-28"]),
+    D("d", ["2027-12-05", "2027-12-12", "2027-12-19"]), D("d", ["2027-12-28", "2027-12-29", "2027-12-30"]),
+  ],
+};
+export const THEORY_TIMES = { d: "9:45 AM to 4:30 PM", e: "5:30 PM to 9:00 PM" };
+/* Next course with seats that has not started yet. */
+export function nextOpenCourse(today = new Date()) {
+  const iso = today.toISOString().slice(0, 10);
+  return Object.values(THEORY).flat().filter((c) => !c.full && c.d[0] >= iso).sort((a, b) => a.d[0].localeCompare(b.d[0]))[0] || null;
+}

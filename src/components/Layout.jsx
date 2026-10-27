@@ -4,7 +4,7 @@ import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { CaretDown, List, X, Phone, EnvelopeSimple, MapPin, LinkedinLogo, InstagramLogo, Clock, ArrowUpRight } from "@phosphor-icons/react";
 import Logo from "../Logo";
-import { ADDRESS, EMAIL, NAV, PHONE, REGISTER, SOCIAL, SITE, THEORY_2026, THEORY_2027 } from "../data";
+import { ADDRESS, EMAIL, NAV, PHONE, REGISTER, SOCIAL, THEORY_2026, THEORY_2027, nextOpenCourse } from "../data";
 import { ease } from "../ui";
 import { pageview } from "../analytics";
 
@@ -92,6 +92,7 @@ function Header() {
 }
 
 function InfoStrip() {
+  const next = nextOpenCourse();
   return (
     <section aria-label="Office hours and motorcycle theory" className="mx-auto max-w-6xl px-4 pb-4">
       <div className="grid gap-4 rounded-3xl border border-line bg-surface p-6 md:grid-cols-3 md:p-8">
@@ -101,9 +102,13 @@ function InfoStrip() {
         </div>
         <div>
           <p className="text-sm font-semibold">GLP theory calendar</p>
+          {next ? (
+            <p className="mt-2 text-sm text-muted">Next open course starts {new Date(`${next.d[0]}T12:00:00`).toLocaleDateString("en-CA", { weekday: "long", month: "long", day: "numeric" })} ({next.t === "e" ? "evenings" : "daytime"}).</p>
+          ) : null}
           <p className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm">
-            <a href={THEORY_2026} className="inline-flex items-center gap-1 text-accent-text hover:underline">2026 dates <ArrowUpRight size={14} weight="bold" /></a>
-            <a href={THEORY_2027} className="inline-flex items-center gap-1 text-accent-text hover:underline">2027 dates <ArrowUpRight size={14} weight="bold" /></a>
+            <Link to="/glp-theory-calendar" className="inline-flex items-center gap-1 font-medium text-accent-text hover:underline">All dates <ArrowUpRight size={14} weight="bold" /></Link>
+            <a href={THEORY_2026} className="text-accent-text hover:underline">2026 PDF</a>
+            <a href={THEORY_2027} className="text-accent-text hover:underline">2027 PDF</a>
           </p>
         </div>
         <div>
